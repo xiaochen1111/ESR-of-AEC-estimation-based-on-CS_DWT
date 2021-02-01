@@ -1,9 +1,14 @@
 %% 导入数据
 % clear all 
-load('boost')
-V=boost(1:1:1024,2);
-I=boost(1:1:1024,3);
-t=boost(1:1:1024,1);
+ESR=[];
+WESR=[];
+load('VV.mat')
+load('II.mat')
+for ii=1:64:1488
+V=VV(ii:1:ii+511,1);
+I=II(ii:1:ii+511,1);
+% t=boost100k(1:1:1024,1);
+
 %% 添加噪声
 % V=awgn(V1,40,'measured',9);
 % I=awgn(I1,40,'measured',9);
@@ -17,16 +22,22 @@ WV_theta=ww*V;
 WI_theta=ww*I;
 % 压缩感知需要用到的参数
 r=0.5;       % 压缩率
-K=10;        % 稀疏度
+K=1;        % 稀疏度
 [theta_V]=compressed(V,r,K);
 [theta_I]=compressed(I,r,K);
 [WV_fs1,WV_fs2,WV_fs3,WV_fs4,WV_fs5,WV_fs6]=value_extract(WV_theta);
 [WI_fs1,WI_fs2,WI_fs3,WI_fs4,WI_fs5,WI_fs6]=value_extract(WI_theta);
 [V_fs1,V_fs2,V_fs3,V_fs4,V_fs5,V_fs6]=value_extract(theta_V);
 [I_fs1,I_fs2,I_fs3,I_fs4,I_fs5,I_fs6]=value_extract(theta_I);
-ESR1=V_fs1./I_fs1   %CS_DWT 结果  
-WESR1=WV_fs1./WI_fs1 % DWT 结果
-WESR2=WV_fs2./WI_fs2 % DWT 结果
+ESR1=V_fs1./I_fs1;    %CS_DWT 结果  
+WESR1=WV_fs1./WI_fs1; % DWT 结果
+WESR2=WV_fs2./WI_fs2; % DWT 结果
+ESR=[ESR,ESR1];
+WESR=[WESR,WESR1];
+end
+
+
+
 
 %% 数值处理
 function [value1,value2,value3,value4,value5,value6]=value_extract(x)

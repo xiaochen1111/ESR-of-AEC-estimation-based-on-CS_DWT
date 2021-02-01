@@ -4,8 +4,8 @@
 
 function ww=gen_dwt(N)
 
-%[h,g]= wfilters('sym8','l');       %  分解低通和高通滤波器
-[h,g]=wfilters('rbio3.3','h');
+%[h,g]= wfilters('sym8','l');       %  分解低通和高通滤波器rbio1.3
+[h,g]=wfilters('haar','h');
 % N=256;                           %  矩阵维数(大小为2的整数幂次)
 L=length(h);                       %  滤波器长度
 rank_max=log2(N);                  %  最大层数

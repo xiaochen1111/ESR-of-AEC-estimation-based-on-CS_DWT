@@ -25,6 +25,7 @@ Phi=eye(m,n);                      % 感知矩阵
 f2 = Phi * f;                   % 通过感知矩阵获得测量值   mx1
 % Psi =inv( fft(eye(n,n)));       % 傅里叶正变换，频域稀疏正交基（稀疏表示矩阵）
 Psi=gen_dwt(n);
+% Psi=ConstructHaarWaveletTransformationMatrix(n);
 A=Phi*Psi';                         % m*n
 %% 重建信号                 
 %omp 重构
@@ -39,6 +40,7 @@ A=Phi*Psi';                         % m*n
 % Gradient Descent with Sparsification(GraDeS)
 theta = CS_OMP(f2,A,K);  
 % theta = IST_Basic(f2,A,K);
+
 %%                          L1范数重构
 %% 评价指标    
 % CR=m/n;
